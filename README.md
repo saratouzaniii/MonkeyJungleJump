@@ -1,6 +1,6 @@
 # Monkey Jungle Jump (Chrome Extension)
 
-https://github.com/saratouzaniii/MonkeyJungleJump/raw/main/b_Animate_the_cute_ora.mp4
+![Demo](demo.gif)
 
 A Chrome extension mini-game where you control a monkey:
 - move left/right
