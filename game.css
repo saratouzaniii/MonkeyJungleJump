@@ -1,0 +1,57 @@
+:root {
+  --bg-top: #aef9f3;
+  --bg-bottom: #48ca89;
+  --panel: #124f3a;
+  --ink: #f4fbf5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.game-page {
+  margin: 0;
+  min-width: 740px;
+  background:
+    radial-gradient(circle at 20% 10%, #d4fff7, transparent 42%),
+    radial-gradient(circle at 85% 20%, rgba(255, 245, 210, 0.3), transparent 36%),
+    linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+  color: var(--ink);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+.game-wrap {
+  width: min(98vw, 960px);
+  margin: 0 auto;
+  padding: 6px 8px 8px;
+}
+
+#game-canvas {
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 3px solid rgba(255, 248, 201, 0.85);
+  background: linear-gradient(180deg, #b8fffb, #6de8bb 48%, #2bc478 100%);
+  box-shadow: 0 16px 34px rgba(8, 35, 28, 0.3);
+}
+
+.support-row {
+  margin: 8px 0 2px;
+  text-align: right;
+}
+
+.support-link {
+  display: inline-block;
+  text-decoration: none;
+  padding: 7px 11px;
+  border-radius: 10px;
+  font-weight: 700;
+  color: #4b2e07;
+  background: linear-gradient(180deg, #ffe27a, #f5bf2d);
+  border: 1px solid rgba(83, 52, 10, 0.32);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.16);
+}
+
+.support-link:hover {
+  filter: brightness(1.03);
+}

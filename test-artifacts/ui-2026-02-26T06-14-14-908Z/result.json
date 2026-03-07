@@ -1,0 +1,25 @@
+{
+  "gameUrl": "file:///Users/sara/Documents/New project/chrome-monkey-offline/game.html",
+  "state": {
+    "score": 0,
+    "lives": 0,
+    "bestScore": 0,
+    "gameOver": true,
+    "win": false,
+    "playerX": 560.3999999999995,
+    "playerY": 348.1600000000001,
+    "cameraX": 177.39999999999952,
+    "remainingCoins": 15
+  },
+  "assertions": {
+    "scoreIncreased": false,
+    "lifeLost": false
+  },
+  "screenshots": [
+    "01-initial.png",
+    "02-after-move-right.png",
+    "03-after-jump.png",
+    "04-after-water-hazard.png",
+    "05-after-forced-damage.png"
+  ]
+}

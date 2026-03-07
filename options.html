@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monkey Runner Options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Monkey Runner Settings</h1>
+
+      <label class="row">
+        <input id="enableSlowLoadingOverlay" type="checkbox" />
+        <span>Enable overlay on slow loading pages</span>
+      </label>
+
+      <label class="row">
+        <input id="enableOfflineRedirect" type="checkbox" />
+        <span>Open game page when navigation fails (network errors)</span>
+      </label>
+
+      <label class="field" for="loadingDelayMs">
+        Slow-loading delay (ms)
+      </label>
+      <input id="loadingDelayMs" type="number" min="500" max="12000" step="100" />
+
+      <button id="saveBtn" type="button">Save settings</button>
+      <p id="status" role="status" aria-live="polite"></p>
+      <p class="donate-row">
+        Support the project:
+        <a class="donate-link" href="https://buymeacoffee.com/yourname" target="_blank" rel="noopener noreferrer">
+          Buy me a coffee
+        </a>
+      </p>
+    </main>
+
+    <script src="options.js"></script>
+  </body>
+</html>
