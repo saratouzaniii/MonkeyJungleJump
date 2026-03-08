@@ -181,7 +181,7 @@ async function getGameState(cdp, sessionId) {
 }
 
 async function main() {
-  const extensionPath = path.resolve('/Users/sara/Documents/New project/chrome-monkey-offline');
+  const extensionPath = path.resolve('/Users/sara/Documents/PersonalProjects/chrome-monkey-offline');
   await readFile(path.join(extensionPath, 'manifest.json'), 'utf8');
   const runStamp = new Date().toISOString().replace(/[:.]/g, '-');
   const artifactsDir = path.join(extensionPath, 'test-artifacts', `ui-${runStamp}`);

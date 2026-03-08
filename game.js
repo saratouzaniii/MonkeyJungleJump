@@ -14,6 +14,79 @@
     moveSpeed: 4.2
   };
   const PLATFORM_COLLISION_INSET = 26;
+  const audio = createAudioEngine();
+
+  function createAudioEngine() {
+    let ctx = null;
+    let unlocked = false;
+    const music = new Audio("assets/music/lofi.mp4");
+    music.loop = true;
+    music.volume = 0.05;
+    music.preload = "auto";
+
+    function ensureCtx() {
+      const Ctx = window.AudioContext || window.webkitAudioContext;
+      if (!Ctx) return null;
+      if (!ctx) ctx = new Ctx();
+      if (ctx.state === "suspended") ctx.resume();
+      return ctx;
+    }
+
+    function tone(freq, duration, type = "triangle", gainV = 0.03) {
+      const c = ensureCtx();
+      if (!c) return;
+      const now = c.currentTime;
+      const osc = c.createOscillator();
+      const gain = c.createGain();
+      osc.type = type;
+      osc.frequency.setValueAtTime(freq, now);
+      gain.gain.setValueAtTime(gainV, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      osc.connect(gain);
+      gain.connect(c.destination);
+      osc.start(now);
+      osc.stop(now + duration);
+    }
+
+    function unlockAndStart() {
+      unlocked = true;
+      ensureCtx();
+      startMusic();
+    }
+
+    function startMusic() {
+      if (!unlocked) return;
+      music.play().catch(() => {
+        // Autoplay can fail before explicit interaction.
+      });
+    }
+
+    function stopMusic() {
+      music.pause();
+    }
+
+    return {
+      unlockAndStart,
+      startMusic,
+      stopMusic,
+      jump() {
+        tone(560, 0.06, "square", 0.03);
+        setTimeout(() => tone(760, 0.06, "square", 0.02), 28);
+      },
+      coin() {
+        tone(960, 0.045, "triangle", 0.03);
+        setTimeout(() => tone(1320, 0.05, "triangle", 0.02), 24);
+      },
+      hit() {
+        tone(180, 0.15, "sawtooth", 0.05);
+      },
+      levelUp() {
+        tone(660, 0.06, "triangle", 0.03);
+        setTimeout(() => tone(880, 0.07, "triangle", 0.025), 55);
+        setTimeout(() => tone(1100, 0.08, "triangle", 0.02), 120);
+      }
+    };
+  }
 
   const player = {
     x: 90,
@@ -171,9 +244,11 @@
     state.cameraX = 0;
     generateLevel(state.level);
     resetPlayerToSpawn();
+    audio.startMusic();
   }
 
   function startNextLevel() {
+    audio.levelUp();
     state.level += 1;
     state.levelCompleteMs = 0;
     state.paused = false;
@@ -183,6 +258,7 @@
     state.cameraX = 0;
     generateLevel(state.level);
     resetPlayerToSpawn();
+    audio.startMusic();
   }
 
   function rectsOverlap(a, b) {
@@ -196,9 +272,11 @@
   function loseLife() {
     if (player.invincibleMs > 0 || state.gameOver || state.win) return;
     state.lives -= 1;
+    audio.hit();
     if (state.lives <= 0) {
       state.lives = 0;
       state.gameOver = true;
+      audio.stopMusic();
       state.bestScore = Math.max(state.bestScore, state.score);
       return;
     }
@@ -283,14 +361,18 @@
     if (!player.onGround) return;
     player.vy = world.jumpVelocity;
     player.onGround = false;
+    audio.jump();
   }
 
   function togglePause() {
     if (state.gameOver || state.win || state.levelCompleteMs > 0) return;
     state.paused = !state.paused;
+    if (state.paused) audio.stopMusic();
+    else audio.startMusic();
   }
 
   function handleDownKey(code) {
+    audio.unlockAndStart();
     if (["ArrowLeft", "ArrowRight", "ArrowUp", "Space", "KeyA", "KeyD", "KeyW"].includes(code)) {
       state.keys.add(code);
     }
@@ -310,6 +392,7 @@
   }
 
   function handlePointerDown(event) {
+    audio.unlockAndStart();
     const rect = canvas.getBoundingClientRect();
     const sx = canvas.width / rect.width;
     const sy = canvas.height / rect.height;
@@ -432,6 +515,7 @@
       if (dx * dx + dy * dy < (coin.r + 18) * (coin.r + 18)) {
         coin.taken = true;
         state.score += 1;
+        audio.coin();
       }
     }
 
